@@ -1,121 +1,182 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-    <style>
-        *{
-            background-color: #202121;
-        }
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Электронная библиотека</title>
+    <link rel="stylesheet" href="../../style.css" />
+    <style>@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
-        .btn{
-            border: none;
-            border-radius: 5px;
-            color: #868786;
-            background-color: #373838;
-            text-align: center;
-            font-size: 1rem;
-            padding: 0.375rem 4.25rem;
-            line-height: 1.5;
-            margin-top: 30px;
-            /*margin-left: 530px;*/
-        }
+    :root {
+      --color-white: #fff;
+      --color-grey-400: #ced4da;
+      --color-grey-600: #868e96;
+      --color-red-600: #fa5252;
+      --color-red-700: #f03e3e;
+      --color-primary: #38d9a9;
+      --color-primary-shade-100: #32c398;
+      --color-black: #333;
+    }
 
-        .btn:hover{
-            background-color: #868786;
-            color: #373838;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .input_field{
-            border-radius: 10px;
-            height: 15px;
-            padding:10px;
-            font-size: 15px;
-            border-color: #3b3838;
-            border-style: solid;
-            width: 300px;
-            margin-bottom: 1px;
-            /*margin-left: 450px;*/
-            color: white;
-        }
+    html {
+      font-size: 62.5%;
+    }
 
-        .p{
-            /*margin-left: 460px;*/
-            margin-bottom: 5px;
-            color: #a0a2a0;
-            font-size: 20px;
-            font-family: "Apple Symbols";
-        }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      color: var(--color-black);
+      line-height: 1;
+    }
 
-        .btnToSignup{
-            border: none;
-            border-radius: 5px;
-            color: #a0a2a0;
-            background-color: #373838;
-            text-align: center;
-            font-size: 1rem;
-            padding: 0.375rem 4.25rem;
-            line-height: 1.5;
-            margin-top: 10px;
-            /*margin-left: 499px;*/
-        }
+    input,
+    button {
+      font-family: inherit;
+    }
 
-        .btnToSignup:hover{
-            background-color: #a0a2a0;
-            color: #373838;
-        }
+    input {
+      color: inherit;
+    }
+    .logo {
+      padding: 2rem;
+      font-size: 4rem;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      border-radius: 0 8px;
+    }
 
+    .error {
+      color: var(--color-red-600);
+      font-size: 1.6rem;
+      text-align: center;
+    }
 
-        .or{
-            text-align: center;
-            color: #a0a2a0;
-        }
+    .btn {
+      display: inline-block;
+      padding: 1rem 2.4rem;
+      font-size: 2rem;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      text-decoration: none;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-        .login{
-            text-align: center;
-            color: #a0a2a0;
-        }
+    .btn:hover {
+      background-color: var(--color-primary-shade-100);
+    }
 
-        .error{
-            text-align: center;
-            font-family: "Devanagari Sangam MN";
-            font-size: 20px;
-        }
+    .input-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
 
+    .input-field__label {
+      font-size: 1.6rem;
+      text-align: center;
+    }
 
+    .input-field__input {
+      padding: 0.6rem 1.2rem;
+      font-size: 2rem;
+      border: 1px solid var(--color-grey-400);
+      border-radius: 4px;
+      transition: border-color 0.3s;
+    }
+
+    .input-field__input:focus {
+      outline: none;
+      border-color: var(--color-grey-600);
+    }
+
+    .main-screen {
+      max-width: 80rem;
+      margin: 16rem auto 0;
+      padding: 4rem;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3.2rem;
+    }
+
+    .search-book {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .no-book {
+      text-align: center;
+    }
+
+    .books {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .books__item {
+      font-size: 2rem;
+    }
+
+    .book-owner {
+      margin-top: 2rem;
+      font-size: 2rem;
+    }
     </style>
+  </head>
+  <body>
+    <div class="main-screen">
+      <h1 class="logo">Электронная библиотека</h1>
+      <form class="search-book" th:method="POST" th:action="@{/books/search}">
+        <div class="input-field">
+          <label for="query" class="input-field__label">Название книги</label>
+          <input
+            class="input-field__input"
+            type="text"
+            id="query"
+            name="query"
+          />
+        </div>
+        <input class="btn" type="submit" value="Искать!" />
+      </form>
 
-</head>
-<body>
-
-<form th:method="POST" th:action="@{/books/search}" style="text-align: center">
-    <label style="color: white" for="query"><strong>Введите поисковой запрос: </strong></label>
-    <input style="margin: 20px" class="input_field" type="text" id="query" name="query"/>
-    <br/>
-    <input class="btn" type="submit" value="Искать!"/>
-</form>
-
-<br>
-<br>
-<div th:if="${books}">
-    <div th:if="${books.isEmpty()}">
-        <span style="color: white">Книг не найдено</span>
-    </div>
-
-    <div th:each="book : ${books}">
-        <p style="color: white" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</p>
-
-        <div th:if="${book.getOwner() != null}">
-            <span style="color: white">Книга сейчас у: </span> <span style="color: white" th:text="${book.getOwner().getFullStudentName()}">Person Name</span>
+      <div th:if="${books}">
+        <div class="no-book" th:if="${books.isEmpty()}">
+          <span class="error">Книг не найдено</span>
         </div>
 
-        <div th:if="${book.getOwner() == null}">
-            <span style="color: white">Книга свободна</span>
+        <div class="books" th:each="book : ${books}">
+          <p
+            class="books__item"
+            th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"
+          >
+            book
+          </p>
+
+          <div class="book-owner" th:if="${book.getOwner() != null}">
+            <span>Книга сейчас у</span>
+            <span th:text="${book.getOwner().getFullStudentName()}"
+              >Person Name</span
+            >
+          </div>
+
+          <div class="book-owner" th:if="${book.getOwner() == null}">
+            <span>Книга свободна</span>
+          </div>
         </div>
-
-        <hr/>
+      </div>
     </div>
-</div>
-
-</body>
+  </body>
 </html>

@@ -1,127 +1,193 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Registration</title>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Электронная библиотека</title>
+    <link rel="stylesheet" href="../style.css" />
     <style>
-        form{
-            text-align: center;
-        }
+      @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
-        *{
-            background-color: #202121;
-        }
+      :root {
+        --color-white: #fff;
+        --color-grey-400: #ced4da;
+        --color-grey-600: #868e96;
+        --color-red-600: #fa5252;
+        --color-red-700: #f03e3e;
+        --color-primary: #38d9a9;
+        --color-primary-shade-100: #32c398;
+        --color-black: #333;
+      }
 
-        .btn{
-            border: none;
-            border-radius: 5px;
-            color: #868786;
-            background-color: #373838;
-            text-align: center;
-            font-size: 1rem;
-            padding: 0.375rem 4.25rem;
-            line-height: 1.5;
-            margin-top: 30px;
-            /*margin-left: 530px;*/
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 62.5%;
+      }
+
+      body {
+        font-family: 'Open Sans', sans-serif;
+        color: var(--color-black);
+        line-height: 1;
+      }
+
+      input,
+      button {
+        font-family: inherit;
+      }
+
+      input {
+        color: inherit;
+      }
+
+      .auth {
+        margin-top: 4rem;
+        text-align: center;
+        max-width: 60rem;
+        margin: 16rem auto 0;
+      }
+
+      .logo {
+        padding: 2rem;
+        font-size: 4rem;
+        background-color: var(--color-primary);
+        color: var(--color-white);
+        border-radius: 0 8px;
+      }
+
+      .auth__subtitle {
+        margin-top: 6rem;
+        font-size: 3rem;
+      }
+
+      .form {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .error {
+        color: var(--color-red-600);
+        font-size: 1.6rem;
+        text-align: center;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 1rem 2.4rem;
+        font-size: 2rem;
+        background-color: var(--color-primary);
+        color: var(--color-white);
+        text-decoration: none;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn:hover {
+        background-color: var(--color-primary-shade-100);
+      }
 
 
-        }
+      .input-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
 
-        .btn:hover{
-            background-color: #868786;
-            color: #373838;
-        }
+      .input-field__label {
+        font-size: 1.6rem;
+        text-align: center;
+      }
 
-        .input_field{
-            border-radius: 10px;
-            height: 15px;
-            padding:10px;
-            font-size: 15px;
-            border-color: #3b3838;
-            border-style: solid;
-            width: 300px;
-            margin-bottom: 1px;
-            /*margin-left: 450px;*/
-            color: white;
-        }
+      .input-field__input {
+        padding: 0.6rem 1.2rem;
+        font-size: 2rem;
+        border: 1px solid var(--color-grey-400);
+        border-radius: 4px;
+        transition: border-color 0.3s;
+      }
 
-        .p{
-            /*margin-left: 460px;*/
-            margin-bottom: 5px;
-            color: #a0a2a0;
-            font-size: 20px;
-            font-family: "Apple Symbols";
-        }
+      .input-field__input:focus {
+        outline: none;
+        border-color: var(--color-grey-600);
+      }
 
-        .btnToSignup{
-            border: none;
-            border-radius: 5px;
-            color: #a0a2a0;
-            background-color: #373838;
-            text-align: center;
-            font-size: 1rem;
-            padding: 0.375rem 4.25rem;
-            line-height: 1.5;
-            margin-top: 10px;
-            /*margin-left: 499px;*/
-        }
+      .auth__text {
+        display: block;
+        margin-top: 2rem;
+        font-size: 1.6rem;
+      }
 
-        .btnToSignup:hover{
-            background-color: #a0a2a0;
-            color: #373838;
-        }
+      .auth__link {
+        color: var(--color-primary);
+      }
 
-
-        .or{
-            text-align: center;
-            font-size: 15px;
-            margin-top: 20px;
-            color: #a0a2a0;
-        }
-
-        .register{
-            text-align: center;
-            color: #a0a2a0;
-        }
-
-        .error{
-            text-align: center;
-            font-family: "Devanagari Sangam MN";
-            font-size: 20px;
-        }
+      .auth__link:hover {
+        text-decoration: none;
+      }
 
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="auth">
+      <h1 class="logo">Электронная библиотека</h1>
+      <h2 class="auth__subtitle">Регистрация</h2>
 
-<h3 style="color: #6c6767">Электронная библиотека</h3>
+      <form
+        class="form"
+        th:method="POST"
+        th:action="@{/auth/registration}"
+        th:object="${administrator}"
+      >
+        <div class="input-field">
+          <label for="username" class="input-field__label">Логин</label>
+          <input
+            class="input-field__input"
+            type="text"
+            th:field="*{username}"
+            id="username"
+          />
+          <span
+            class="error"
+            th:if="${#fields.hasErrors('username')}"
+            th:errors="*{username}"
+          >
+          </span>
+        </div>
+        <div class="input-field">
+          <label for="password" class="input-field__label">Пароль</label>
+          <input
+            class="input-field__input"
+            type="password"
+            th:field="*{password}"
+            id="password"
+          />
+          <span
+            class="error"
+            th:if="${#fields.hasErrors('password')}"
+            th:errors="*{password}"
+          >
+          </span>
+        </div>
 
-<form th:method="POST" th:action="@{/auth/registration}" th:object="${administrator}">
-    <h1 class="register">Регистрация</h1>
-    <p class="p">
-        <strong style="font-size: 15px">Имя пользователя</strong>
-    </p>
-    <input class="input_field" type="text" th:field="*{username}" id="username" placeholder="Username..">
-    <div class="error" style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+        <button class="btn" type="submit">Зарегистрироваться</button>
+      </form>
 
-    <br>
-
-    <p class="p">
-        <strong style="font-size: 15px">Пароль</strong>
-    </p>
-    <input class="input_field" type="password" th:field="*{password}" id="password" placeholder="Password..">
-    <div class="error" style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-
-    <br>
-    <input class="btnToSignup" type="submit" value="Зарагестрироваться!">
-
-</form>
-
-<div class="or">или если вы уже зарегестрированы</div>
-
-<form action="/auth/login" method="get">
-    <input class="btn" type="submit" value="Войти" id="button">
-</form>
-
-</body>
+      <span class="auth__text">
+        Уже есть аккаунт?
+        <a href="/auth/login" class="auth__link">Войти</a>
+      </span>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+  </body>
 </html>
